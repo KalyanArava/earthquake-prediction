@@ -1,6 +1,6 @@
 # ==========================================
-# Earthquake Prediction System (FINAL)
-# Streamlit App – Cloud Safe Version
+# Earthquake Prediction System (FINAL – BUG FIXED)
+# Streamlit App – Cloud Safe
 # Final Year Project
 # ==========================================
 
@@ -161,7 +161,6 @@ with tab1:
             f"🛡 **Safety Advice:** {p['tips']}"
         )
 
-        # ---------------- Download Report (TEXT) ----------------
         report_text = f"""
 Earthquake Prediction Report
 ----------------------------
@@ -189,7 +188,6 @@ not an official warning system.
         )
 
 # ==========================================
-# ==========================================
 # TAB 2: Risk Map
 # ==========================================
 with tab2:
@@ -198,48 +196,36 @@ with tab2:
     st.markdown(
         """
         **What does this map show?**  
-        • The marker shows the **exact location** (latitude & longitude) selected by the user.  
-        • The color represents the **predicted risk level**, derived from magnitude.  
-        • This map is a **visual aid**, not a real-time warning system.
+        • The marker shows the **exact location** selected by the user.  
+        • Risk level is derived from the predicted magnitude.  
+        • This is a **visual aid**, not a real-time warning system.
         """
     )
 
     if st.session_state.prediction:
         p = st.session_state.prediction
 
-        # Risk color logic
-        if p['risk'] == "Low Risk":
-            color = "green"
-        elif p['risk'] == "Medium Risk":
-            color = "orange"
-        else:
-            color = "red"
-
         map_df = pd.DataFrame({
             "lat": [p['lat']],
-            "lon": [p['lon']],
-            "risk": [p['risk']]
+            "lon": [p['lon']]
         })
 
         st.map(map_df)
 
         st.success(
-            f"📍 **Prediction Location**: ({p['lat']}, {p['lon']})
+            f"""
+📍 **Prediction Location**: ({p['lat']}, {p['lon']})
 
-"
-            f"⚠️ **Risk Level**: {p['risk']}"
+⚠️ **Risk Level**: {p['risk']}
+"""
         )
 
-        st.caption(
-            "🟢 Low Risk  |  🟠 Medium Risk  |  🔴 High Risk"
-        )
+        st.caption("🟢 Low Risk  |  🟠 Medium Risk  |  🔴 High Risk")
     else:
         st.info("Make a prediction to view the risk map")
 
 # ==========================================
 # TAB 3: Help
-# ==========================================
-
 # ==========================================
 with tab3:
     st.markdown("""
