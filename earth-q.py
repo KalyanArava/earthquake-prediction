@@ -191,26 +191,27 @@ not an official warning system.
 # TAB 2: Risk Map
 # ==========================================
 with tab2:
-    st.subheader("🗺 Location-Based Risk Map")
+st.subheader("🌍 Prediction Location Map")
 
-    st.markdown(
-        """
-        **What does this map show?**  
-        • The marker shows the **exact location** selected by the user.  
-        • Risk level is derived from the predicted magnitude.  
-        • This is a **visual aid**, not a real-time warning system.
-        """
-    )
+st.markdown(
+    """
+**Purpose of this map:**
+- This map shows the **geographic location entered by the user**.
+- Latitude and longitude are **manually provided inputs**.
+- The prediction (magnitude & depth) applies **to this location**.
+- This is **not a real-time earthquake warning system**.
+"""
+)
 
-    if st.session_state.prediction:
-        p = st.session_state.prediction
+# Create clean map dataframe
+map_df = pd.DataFrame({
+    "lat": [prediction["lat"]],
+    "lon": [prediction["lon"]]
+})
 
-        map_df = pd.DataFrame({
-            "lat": [p['lat']],
-            "lon": [p['lon']]
-        })
+# Neutral, clean map
+st.map(map_df, zoom=5)
 
-        st.map(map_df)
 
         st.success(
             f"""
@@ -240,3 +241,4 @@ with tab3:
     """)
 
 st.caption("© Final Year Project | Earthquake Prediction")
+
