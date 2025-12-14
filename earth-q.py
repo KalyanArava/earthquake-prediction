@@ -189,21 +189,57 @@ not an official warning system.
         )
 
 # ==========================================
+# ==========================================
 # TAB 2: Risk Map
 # ==========================================
 with tab2:
     st.subheader("🗺 Location-Based Risk Map")
 
+    st.markdown(
+        """
+        **What does this map show?**  
+        • The marker shows the **exact location** (latitude & longitude) selected by the user.  
+        • The color represents the **predicted risk level**, derived from magnitude.  
+        • This map is a **visual aid**, not a real-time warning system.
+        """
+    )
+
     if st.session_state.prediction:
         p = st.session_state.prediction
-        map_df = pd.DataFrame({"lat": [p['lat']], "lon": [p['lon']]})
+
+        # Risk color logic
+        if p['risk'] == "Low Risk":
+            color = "green"
+        elif p['risk'] == "Medium Risk":
+            color = "orange"
+        else:
+            color = "red"
+
+        map_df = pd.DataFrame({
+            "lat": [p['lat']],
+            "lon": [p['lon']],
+            "risk": [p['risk']]
+        })
+
         st.map(map_df)
-        st.caption(f"Risk Level: {p['risk']}")
+
+        st.success(
+            f"📍 **Prediction Location**: ({p['lat']}, {p['lon']})
+
+"
+            f"⚠️ **Risk Level**: {p['risk']}"
+        )
+
+        st.caption(
+            "🟢 Low Risk  |  🟠 Medium Risk  |  🔴 High Risk"
+        )
     else:
-        st.info("Make a prediction to view the map")
+        st.info("Make a prediction to view the risk map")
 
 # ==========================================
 # TAB 3: Help
+# ==========================================
+
 # ==========================================
 with tab3:
     st.markdown("""
